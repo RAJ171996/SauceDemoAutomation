@@ -48,7 +48,9 @@ jobs:
 
       # Run Selenium Tests
       - name: Run Selenium Tests
-        run: mvn clean test -Dbrowser=chrome
+
+        run: |
+          mvn clean test -Dbrowser=chrome
 
       # Upload Extent Report
       - name: Upload Extent Report
@@ -60,7 +62,6 @@ jobs:
         with:
           name: ExtentReports
           path: test-output/
-          if-no-files-found: ignore
 
       # Upload Screenshots
       - name: Upload Screenshots
@@ -72,7 +73,6 @@ jobs:
         with:
           name: FailureScreenshots
           path: screenshots/
-          if-no-files-found: ignore
 
       # Upload Allure Results
       - name: Upload Allure Results
@@ -84,7 +84,6 @@ jobs:
         with:
           name: AllureResults
           path: allure-results/
-          if-no-files-found: ignore
 
       # Slack Notification Success
       - name: Slack Success Notification
