@@ -62,18 +62,6 @@ jobs:
           path: test-output/
           if-no-files-found: ignore
 
-      # Upload Screenshots
-      - name: Upload Screenshots
-
-        if: always()
-
-        uses: actions/upload-artifact@v4
-
-        with:
-          name: FailureScreenshots
-          path: screenshots/
-          if-no-files-found: ignore
-
       # Upload Allure Results
       - name: Upload Allure Results
 
