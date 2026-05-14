@@ -1,46 +1,24 @@
 package com.saucedemo.pages;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class InventoryPage {
+public class InventoryPage extends BasePage {
 
-    private static final Logger logger =
-            LogManager.getLogger(
-                    InventoryPage.class
-            );
+	private By productHeader = By.cssSelector(".title");
 
-    private WebDriver driver;
+	public InventoryPage(WebDriver driver) {
 
-    private By productHeader =
-            By.cssSelector(".title");
+		super(driver);
+	}
 
-    public InventoryPage(WebDriver driver) {
+	public boolean isProductHeaderDisplayed() {
 
-        this.driver = driver;
-    }
+		return isDisplayed(productHeader);
+	}
 
-    public boolean isProductHeaderDisplayed() {
+	public String getHeaderText() {
 
-        logger.info(
-                "Validating Inventory Page Header"
-        );
-
-        return !driver.findElements(
-                productHeader
-        ).isEmpty();
-    }
-
-    public String getHeaderText() {
-
-        logger.info(
-                "Fetching Inventory Header Text"
-        );
-
-        return driver.findElement(productHeader)
-                .getText();
-    }
+		return getText(productHeader);
+	}
 }

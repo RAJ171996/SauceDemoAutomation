@@ -1,5 +1,6 @@
 package com.saucedemo.tests;
 
+import com.saucedemo.base.BaseTest;
 import com.saucedemo.pages.InventoryPage;
 import com.saucedemo.pages.LoginPage;
 import com.saucedemo.utils.ExcelUtils;
