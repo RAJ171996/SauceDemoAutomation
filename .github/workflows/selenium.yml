@@ -1,0 +1,114 @@
+name: Selenium Chrome CI Pipeline
+
+on:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  selenium-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Checkout Project
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      # Setup Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Cache Maven Dependencies
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v4
+
+        with:
+          path: ~/.m2
+
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      # Setup Chrome Browser
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # Run Selenium Tests
+      - name: Run Selenium Tests
+
+        run: |
+          mvn clean test -Dbrowser=chrome
+
+      # Upload Extent Report
+      - name: Upload Extent Report
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: ExtentReports
+          path: test-output/
+
+      # Upload Screenshots
+      - name: Upload Screenshots
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: FailureScreenshots
+          path: screenshots/
+
+      # Upload Allure Results
+      - name: Upload Allure Results
+
+        if: always()
+
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: AllureResults
+          path: allure-results/
+
+      # Slack Notification Success
+      - name: Slack Success Notification
+
+        if: success()
+
+        run: |
+
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{
+            "text":"✅ Selenium Chrome Tests Passed Successfully"
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      # Slack Notification Failure
+      - name: Slack Failure Notification
+
+        if: failure()
+
+        run: |
+
+          curl -X POST \
+          -H 'Content-type: application/json' \
+          --data '{
+            "text":"❌ Selenium Chrome Tests Failed"
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
