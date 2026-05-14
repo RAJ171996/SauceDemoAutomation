@@ -34,7 +34,8 @@ public class BaseTest {
 
 		String browserType = System.getProperty("browser", "chrome");
 
-		String headless = System.getProperty("headless", "false");
+		// Default Headless = TRUE for CI/CD
+		String headless = System.getProperty("headless", "true");
 
 		WebDriver driverInstance;
 
@@ -53,6 +54,7 @@ public class BaseTest {
 				options.addArguments("--headless=new");
 			}
 
+			// Recommended for Linux CI/CD runners
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--no-sandbox");
 
@@ -82,6 +84,7 @@ public class BaseTest {
 				options.addArguments("--headless=new");
 			}
 
+			// Recommended for Linux CI/CD runners
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--no-sandbox");
 
