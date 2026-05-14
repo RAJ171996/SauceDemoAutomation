@@ -35,11 +35,11 @@ public class LoginTest extends BaseTest {
 
 			Assert.assertTrue(inventoryPage.isProductHeaderDisplayed());
 
-			// Intentional Failure
-			if (username.equals("standard_user")) {
-
-				Assert.fail("Intentional Failure To Test Screenshot Capture");
-			}
+//			// Intentional Failure
+//			if (username.equals("standard_user")) {
+//
+//				Assert.fail("Intentional Failure To Test Screenshot Capture");
+//			}
 		}
 	}
 }
